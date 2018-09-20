@@ -12,3 +12,9 @@ CREATE TABLE photos(
    ALTER TABLE photos DROP COLUMN lastLogin
    
    ALTER TABLE photos ADD COLUMN lastUpdated TIMESTAMP DEFAULT NOW()
+
+   ALTER TABLE photos
+    DROP COLUMN photoTag1
+
+    ALTER TABLE photos
+    DROP COLUMN photoTag2

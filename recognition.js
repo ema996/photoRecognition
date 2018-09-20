@@ -1,12 +1,15 @@
 require('dotenv').config();
-const pg = require('pg');
-const queryBuilder = require ('./queryBuilder.js');
+//const pg = require('pg');
+//const queryBuilder = require ('./queryBuilder.js');
 const AWS = require('aws-sdk');
-const createError = require('http-errors');
-const db = require('./db.js');
-var s3 = new AWS.S3({region: "us-east-2"});
+AWS.config.update({region: 'us-east-2'});
+
+//const createError = require('http-errors');
+//const db = require('./db.js');
+//var s3 = new AWS.S3({region: "us-east-2"});
 var rekognition = new AWS.Rekognition();
 const validTags = ["Car","Bike","Bus","Truck","Motorcycle"];
+const allTags = [];
 var photoIsApproved = false;
 
 
@@ -38,6 +41,10 @@ exports.handler = async(event,context,callback) => {
           console.log('Ova e rezultatot',result);
           //console.log('Ova e samo name-ot od prviot label od rezultatot',result.Labels[0].Name);
           
+          for (var t=0; t<result.Labels.length;t++){
+              allTags.push(result.Labels[t].Name);
+            
+          }
           for(var i=0;i<result.Labels.length;i++){
               for(var k=0;k<validTags.length;k++){
                   if(result.Labels[i].Name == validTags[k]) {
@@ -48,7 +55,24 @@ exports.handler = async(event,context,callback) => {
           }
           if(photoIsApproved == true){
               console.log('This photo is approved');
-          }
+              var params = {
+                Message: JSON.stringify({Labels: allTags, KeyName:event.Records[0].s3.object.key }), /* required */
+                TopicArn: 'arn:aws:sns:us-east-2:637361919775:approvedPhotoSNS'
+              };
+
+              var publishTextPromise = new AWS.SNS().publish(params).promise();
+
+            // Handle promise's fulfilled/rejected states
+            return publishTextPromise.then(
+            function(data) {
+                console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+            console.log("MessageID is " + data.MessageId);
+            }).catch(
+            function(err) {
+            console.error(err, err.stack);
+  });
+  }
+          
           else {
               console.log('This photo is not approved');
           }
