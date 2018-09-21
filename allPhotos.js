@@ -1,12 +1,13 @@
 require('dotenv').config();
+const queryBuilder = require ('./queryBuilder.js');
 const AWS = require('aws-sdk');
 const db = require('./db.js');
-const queryBuilder = require ('./queryBuilder.js');
+
 
 exports.handler = async(event,context,callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
     try {
-        var data = await rejectedPhoto(event);
+        var data = await allPhotos(event);
         callback(null,data)
     } catch (err) {
         const error = {
@@ -17,8 +18,8 @@ exports.handler = async(event,context,callback) => {
     } 
 }
 
-async function rejectedPhoto(event){
+async function allPhotos(event) {
     console.log(JSON.stringify(event));
-    var queryResult = await db.query(queryBuilder.insertLabelsAndPhotoStatus(),[2,JSON.parse(event.Records[0].Sns.Message).Labels,'%'+JSON.parse(event.Records[0].Sns.Message).KeyName+'%']);
+    var queryResult = await db.query(queryBuilder.allPhotos());
     console.log('Rezultatot od query-to e: ',queryResult);
 }

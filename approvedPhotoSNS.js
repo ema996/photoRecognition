@@ -19,5 +19,8 @@ exports.handler = async(event,context,callback) => {
 
 async function approvedPhoto(event){
     console.log(JSON.stringify(event));
+    var queryResult = await db.query(queryBuilder.insertLabelsAndPhotoStatus(),[1,JSON.parse(event.Records[0].Sns.Message).Labels,'%'+JSON.parse(event.Records[0].Sns.Message).KeyName+'%']);
+    console.log('Rezultatot od query-to e: ',queryResult);
 }
+
 

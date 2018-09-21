@@ -62,7 +62,7 @@ exports.handler = async(event,context,callback) => {
 
               var publishTextPromise = new AWS.SNS().publish(params).promise();
 
-            // Handle promise's fulfilled/rejected states
+            
             return publishTextPromise.then(
             function(data) {
                 console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
@@ -75,6 +75,22 @@ exports.handler = async(event,context,callback) => {
           
           else {
               console.log('This photo is not approved');
+              var params = {
+                Message: JSON.stringify({Labels: allTags, KeyName:event.Records[0].s3.object.key }), /* required */
+                TopicArn: 'arn:aws:sns:us-east-2:637361919775:rejectedPhotoSNS'
+              };
+
+              var publishTextPromise = new AWS.SNS().publish(params).promise();
+
+            
+            return publishTextPromise.then(
+            function(data) {
+                console.log(`Message ${params.Message} send sent to the topic ${params.TopicArn}`);
+                console.log("MessageID is " + data.MessageId);
+            }).catch(
+            function(err) {
+            console.error(err, err.stack);
+  });
           }
           
   }

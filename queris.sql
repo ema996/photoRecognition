@@ -18,3 +18,6 @@ CREATE TABLE photos(
 
     ALTER TABLE photos
     DROP COLUMN photoTag2
+
+    ALTER TABLE photos
+    ADD COLUMN labels text[];
