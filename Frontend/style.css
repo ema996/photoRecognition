@@ -1,0 +1,46 @@
+
+  .errors.form-control { 
+    border: 1px solid red;
+  }
+
+  .errors {
+      color:red;
+  }
+
+  .modal-footer {
+    border-top: 0px solid #e9ecef;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: 250px;
+}
+
+.h1-class{
+  margin-left: -15px;
+  padding-left: 15px;
+  margin-right: -15px;
+  padding-right: 15px;
+  border-top: 3px solid rgba(206, 206, 206, 0.945);
+  margin-top: 10px;
+}
+
+.div-style {
+  border:5px ridge;
+  margin-bottom: 30px;
+}
+
+.badge {
+  margin-right: 5px;
+}
+
+#title{
+  text-align: center;
+  color: rgb(56, 53, 53);
+}
+
+.description-class{
+  text-align: justify;
+}

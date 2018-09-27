@@ -17,7 +17,7 @@ function allPhotos() {
     return `
     SELECT *
     FROM photos
-    returning *`; 
+    `; 
 }
 
 module.exports = {

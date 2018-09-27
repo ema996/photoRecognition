@@ -22,4 +22,5 @@ async function allPhotos(event) {
     console.log(JSON.stringify(event));
     var queryResult = await db.query(queryBuilder.allPhotos());
     console.log('Rezultatot od query-to e: ',queryResult);
+    return queryResult.rows;
 }

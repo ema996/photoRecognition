@@ -9,7 +9,6 @@ AWS.config.update({region: 'us-east-2'});
 //var s3 = new AWS.S3({region: "us-east-2"});
 var rekognition = new AWS.Rekognition();
 const validTags = ["Car","Bike","Bus","Truck","Motorcycle"];
-const allTags = [];
 var photoIsApproved = false;
 
 
@@ -28,6 +27,7 @@ exports.handler = async(event,context,callback) => {
 }
 
   async function RekognitionFunc (event){
+      const allTags = [];
          var params = {
             Image: {
              S3Object: {

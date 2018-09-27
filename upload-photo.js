@@ -62,8 +62,9 @@ async function uploadPhoto(event) {
       var dateNow = formatDate(new Date()); 
 
       const signedUrlExpireSeconds = 60 * 100;
+      console.log('Ova e ekstenzijata: ',extension);
     var keyName = 'image_'+dateNow+extension;
-    var filePath = 'https://s3.eu-central-1.amazonaws.com/image-recognition-final-project/'+ keyName;
+    var filePath = 'https://s3.us-east-2.amazonaws.com/final-project-image-recognition/'+ keyName;
     
     var params = {Bucket: "final-project-image-recognition", Key: keyName};
     var url = await getSignedUrlAsync(params);
